@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
+#include<bits/stdc++.h>
 using namespace std;
 
-int main() {
+int main() 
+{
     int t;
     cin >> t;
     while (t--) {
@@ -11,35 +11,28 @@ int main() {
         string s;
         cin >> n >> ch >> s;
 
+        if(ch=='g'){
+            cout << 0 << "\n";
+            continue;
+        }
+
+        vector<int> green;
+        s += s;
+        for(int i=0 ; i<2*n ; i++){
+            if(s[i] == 'g'){
+                green.push_back(i);
+            }
+        }
+
         int ans = 0;
-        bool found = false;
-        for (int i = 0; i < 2 * n; i++) {
-            if (s[i % n] == 'g') {
-                found = true;
-                break;
+        for(int i=0 ; i<n ; i++){
+            if(s[i]==ch){
+                int ub = lower_bound(green.begin(), green.end(), i)-green.begin();
+                ans = max(ans, green[ub]-i);
             }
-            ans++;
         }
+        cout << ans << "\n";
 
-        if (!found && ch != 'g') {
-            for (int i = 0; i < n; i++) {
-                if (s[i] == 'g') {
-                    break;
-                }
-                ans++;
-            }
-        }
-        else if (!found && ch == 'g') {
-            for (int i = 0; i < n; i++) {
-                if (s[i] == 'g') {
-                    found = true;
-                    break;
-                }
-                ans++;
-            }
-        }
-
-        cout << ans << endl;
-    }
-    return 0;
+        
+    }    
 }
