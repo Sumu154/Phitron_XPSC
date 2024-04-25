@@ -36,7 +36,46 @@ int countSqrt(int l, int r){
 
 void Solve()
 {
-    
+    int n;
+    string s;
+    cin >> s;
+    n = s.size();
+
+    char mini = min(s[0], s[n-1]);
+    char maxi = max(s[0], s[n-1]);
+
+    vector<pair<char,int>> order;   //store korbo each char with its index
+    for(int i=0 ; i<n ; i++){
+        if(s[i]<=maxi and s[i]>=mini){
+            order.push_back({s[i], i});
+        }
+    }
+
+    sort(order.begin(), order.end(), [&](auto a, auto b){
+        return a.second < b.second;
+    });
+
+    sort(order.begin()+1, order.begin()+order.size()-1, [&](auto a, auto b){
+        if(s[0] > s[n-1]){
+            return a.first > b.first;
+        }
+        return a.first < b.first;
+    });
+
+    vector<int> ans;
+    ll cost = 0;
+
+    ans.push_back(1);
+    for(int i=1 ; i<order.size() ; i++){
+        cost += abs(order[i-1].first - order[i].first);
+        ans.push_back(order[i].second+1);
+    }
+
+    cout << cost << " " << ans.size() << "\n";
+    for(auto i: ans){
+        cout << i << " ";
+    }
+    cout << "\n";
 }
 
 int main()
